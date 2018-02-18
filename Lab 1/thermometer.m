@@ -4,6 +4,7 @@ a = arduino(); % Create Arduino object
 
 % Pin labels
 tempPin = 'A0';
+speakerPin = 'D6';
 
 temp = 1.0; % Holds the temperature reading.
 tic; % Starts the timer
@@ -16,21 +17,10 @@ while(elapsedTime <= 10)
     temp = (rawVoltage - 0.5) * 100;
     fprintf("TMP35 Vout: %f V | Temp: %f C | Time Elapsed: %fs\n", rawVoltage, temp, elapsedTime);
     
-    % Turn on 1 LED if temp < 20C, 2 LEDs if 20C >= temp < 23C,
-    % And turn on all LEDs if temp >= 23 C
-    %if(temp < 20.0)
-    %    writeDigitalPin(a,ledOne,1);
-    %    writeDigitalPin(a,ledTwo,0);
-    %    writeDigitalPin(a,ledThree,0);
-    %elseif(temp >= 20.0 && temp < 23.0)
-    %    writeDigitalPin(a,ledOne,1);
-    %    writeDigitalPin(a, ledTwo,1);
-    %    writeDigitalPin(a,ledThree,0);
-    %else
-    %    writeDigitalPin(a,ledOne,1);
-    %    writeDigitalPin(a, ledTwo,1);
-    %    writeDigitalPin(a,ledThree,1);
-    %end
+    % Buzz the speaker if the temperature is above 25C.
+    if(temp >= 25.0)
+        playTone(a, speakerPin, 1500, 1);
+    end
     
     pause(0.5);
     elapsedTime = toc; % Grab current time elapsed
