@@ -6,9 +6,10 @@ tmpPin = 'A0';
 motorPin = 'D7';
 heatPadPin = 'D6';
 
-writeDigitalPin(a, heatPadPin, 1);
+timeInSeconds = 0;
 
-while(1)
+% Keep the incubator on for 1 hour, and record temperatures.
+while(timeInSeconds < 3600)
    
     % Calculating temperature in Fahrenheit.
     rawVoltage = readVoltage(a, tmpPin);
@@ -25,5 +26,16 @@ while(1)
     end
     
     fprintf("Temperature: %f deg F\n", tmpInF);
-    pause(0.5);
+    
+    % Plot recorded temperatures.
+    figure(1);
+    plot(timeInSeconds,fakeTemp, 'ko');
+    title('Temperature Inside Incubator');
+    xlabel('Time (in seconds)');
+    ylabel('Temperature (in deg F)');
+    hold on;
+    
+    pause(1);
 end
+
+clear;
